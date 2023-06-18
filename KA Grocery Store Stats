@@ -1,0 +1,32 @@
+CREATE TABLE grocery_store (id INTEGER PRIMARY KEY, name TEXT, price INTEGER, quantity INTEGER, aisle INTEGER);
+
+INSERT INTO grocery_store VALUES (1, "apples", .55, 120, 6);
+INSERT INTO grocery_store VALUES (2, "bananas", .75, 150, 6);
+INSERT INTO grocery_store VALUES (3, "pear", .55, 60, 6);
+INSERT INTO grocery_store VALUES (4, "choco chips", 3, 180, 1);
+INSERT INTO grocery_store VALUES (6, "popcorn", 2.50, 12, 8);
+INSERT INTO grocery_store VALUES (7, "flowers", 5.15, 30, 2);
+INSERT INTO grocery_store VALUES (8, "raisin", .35, 12000, 3);
+INSERT INTO grocery_store VALUES (9, "cake/ mix", 1.50, 70, 4);
+INSERT INTO grocery_store VALUES (10, "puppies", 0, 6, 0);
+INSERT INTO grocery_store VALUES (11, "rocks", 2, 1, 10);
+INSERT INTO grocery_store VALUES (12, "paper", 1, 133, 12);
+INSERT INTO grocery_store VALUES (13, "money", 1, 999, 11);
+INSERT INTO grocery_store VALUES (14, "scissors", 1, 2, 7);
+INSERT INTO grocery_store VALUES (15, "books", 13, 52, 5);
+
+-display the database ordered by price. 
+SELECT name, price from grocery_store ORDER BY price;
+
+--what is the avg price of items in aisle 6? 
+SELECT AVG(price) "avg aisle 6 item price"
+FROM grocery_store
+where aisle = 6;
+
+--what is the most expensice item in the store?
+SELECT name, MAX(price) from grocery_store;
+
+--what are the top 5 most expensive items in the store?
+SELECT name, (price) from grocery_store
+ORDER BY price desc
+LIMIT 5;
