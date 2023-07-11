@@ -1,0 +1,67 @@
+# For this project, I downloaded Spotify data from Kaggle.
+# Then I created a table to insert Spotify data into.
+# Finally, I performed analytics on the data using SQL. 
+
+#Creating the table: 
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL 
+)
+
+#Then I inserted the Spotify Data .csv into the table.
+
+#Next, I explored the data using the following SQL. 
+
+#1. First, I determined the average popularity of all the artists in the database.
+SELECT artist_name, AVG(popularity) FROM Spotifydata
+    GROUP BY artist_name;
+    
+#2. I then sorted the artists by most popular song from most to least popular.
+SELECT artist_name, track_name, popularity FROM Spotifydata
+    GROUP BY artist_name
+        ORDER BY MAX(popularity) desc;
+   
+#3. I searched for a song with a duration of at least 200000ms, that ranked at least 90 in populatity, but a slow tempo of less than 130.
+SELECT track_name, popularity, tempo, duration_ms FROM Spotifydata
+    WHERE duration_ms > 200000
+        AND popularity > 90
+            AND tempo < 130;
+
+#4. Next, I performed a seach for songs that contain either the word "good" or "bad" anywhere in their song name.
+SELECT track_name, artist_name FROM Spotifydata
+    WHERE track_name LIKE "%good%"
+        OR track_name LIKE "%bad%";
+        
+#5. I selected the songs with order by the most danceable and compared them to how popular they were.
+SELECT track_name, popularity, danceability FROM Spotifydata
+    GROUP BY track_name
+        ORDER BY (danceability) desc;
+   
+#6. I selected the 10 best artists for danceability and found their average danceability.
+SELECT artist_name, track_name, AVG(danceability) FROM Spotifydata
+    GROUP BY artist_name
+        ORDER BY AVG(danceability) desc
+            LIMIT 10;        
+      
+#7. Lastly, I determined the average duration of the top 10 most popular songs.
+SELECT AVG(duration_ms) FROM (
+    SELECT duration_ms FROM Spotifydata
+        ORDER BY popularity DESC
+            LIMIT 10
+    );
