@@ -59,9 +59,19 @@ SELECT artist_name, track_name, AVG(danceability) FROM Spotifydata
         ORDER BY AVG(danceability) desc
             LIMIT 10;        
       
-#7. Lastly, I determined the average duration of the top 10 most popular songs.
+#7. I determined the average duration of the top 10 most popular songs.
 SELECT AVG(duration_ms) FROM (
     SELECT duration_ms FROM Spotifydata
         ORDER BY popularity DESC
             LIMIT 10
     );
+
+#8 Lastly, I use a CTE to list the artists with an average popularity equal to or greater than 90 and list them as a 'Top Star'.
+WITH CTE_table AS (
+    SELECT artist_name, AVG(popularity) as avg_popularity
+            FROM Spotifydata
+                GROUP BY artist_name
+        )
+SELECT artist_name, avg_popularity, 'Top Star' as tag
+    FROM CTE_table
+        WHERE avg_popularity >= 90;
